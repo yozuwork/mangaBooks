@@ -1,0 +1,12 @@
+.app {
+  height: 100vh;
+  min-height: 640px;
+}
+
+.app__desktop {
+  display: flex;
+  height: 100%;
+  min-height: 640px;
+  background: var(--bg-page);
+  overflow: hidden;
+}

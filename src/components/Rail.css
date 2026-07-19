@@ -1,0 +1,66 @@
+.rail {
+  width: 82px;
+  flex: none;
+  background: var(--bg-rail);
+  border-right: 1px solid var(--border-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  gap: 6px;
+}
+
+.rail__logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 900;
+  font-size: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(217, 84, 31, 0.35);
+}
+
+.rail__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 60px;
+  padding: 9px 0;
+  border-radius: 13px;
+  cursor: pointer;
+  transition: 0.15s;
+  background: transparent;
+  color: #7c7365;
+}
+
+.rail__item--active {
+  background: var(--bg-panel);
+  color: var(--brand);
+  box-shadow: 0 3px 10px rgba(38, 34, 29, 0.1);
+}
+
+.rail__label {
+  font-size: 10.5px;
+  letter-spacing: 0.5px;
+}
+
+.rail__avatar {
+  margin-top: auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #cbbfa9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-2);
+  font-family: 'Newsreader', serif;
+  font-size: 15px;
+}

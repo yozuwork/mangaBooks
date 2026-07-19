@@ -1,0 +1,47 @@
+.tagedit {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tagedit__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px 5px 12px;
+  border-radius: 20px;
+  background: var(--tag-bg);
+  color: var(--text-2);
+  font-size: 12px;
+}
+
+.tagedit__remove {
+  display: inline-flex;
+  border: none;
+  background: none;
+  color: var(--text-3);
+  cursor: pointer;
+  padding: 0;
+  line-height: 0;
+}
+.tagedit__remove:hover {
+  color: #b23b3b;
+}
+
+.tagedit__input {
+  flex: 1;
+  min-width: 130px;
+  padding: 7px 11px;
+  border: 1px dashed var(--border-dash);
+  border-radius: 11px;
+  background: #fff;
+  font-size: 12.5px;
+  color: var(--ink);
+  outline: none;
+  box-sizing: border-box;
+}
+.tagedit__input:focus {
+  border-color: var(--brand);
+  border-style: solid;
+}

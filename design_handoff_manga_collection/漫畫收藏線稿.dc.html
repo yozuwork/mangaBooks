@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#2b2b2b;--paper:#f0eee9;--acc:#e0592a;--mut:rgba(43,43,43,.5);--faint:rgba(43,43,43,.18);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);font-family:'Noto Sans TC','Patrick Hand',system-ui,sans-serif;color:var(--ink);}
+  a{color:var(--acc)}a:hover{color:#b83f16}
+  .dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+  .dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 24px}
+  .dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+  .dv-tname{font:600 14px/1.2 'Noto Sans TC',system-ui,sans-serif;color:#1a1a1a}
+  .dv-opts{display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start}
+  .dv-opt{flex:none;display:flex;flex-direction:column;gap:11px;scroll-margin-top:16px}
+  .dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+  .dv-olabel{display:flex;align-items:baseline;gap:9px;font:400 12px/1.4 'Noto Sans TC',system-ui,sans-serif;color:var(--mut)}
+  .dv-opt:target .dv-oid{background:var(--acc);color:#fff}
+  .dv-next{margin:26px 0 0;font:13px/1.6 'Noto Sans TC',system-ui,sans-serif;color:var(--mut)}
+  /* wireframe helpers */
+  .wf{background:#fbfaf7;font-family:'Patrick Hand','Noto Sans TC',system-ui,sans-serif;}
+  .sk{border:2px solid var(--ink);border-radius:255px 15px 225px 15px/15px 225px 15px 255px;}
+  .sk2{border:2px solid var(--ink);border-radius:15px 225px 15px 255px/225px 15px 255px 15px;}
+  .skln{border:1.5px solid var(--faint);border-radius:12px 6px 14px 6px/6px 14px 6px 12px;}
+  .hand{font-family:'Patrick Hand','Noto Sans TC',cursive;}
+  .cov{background:repeating-linear-gradient(45deg,#e7e3da,#e7e3da 6px,#efece5 6px,#efece5 12px);display:flex;align-items:center;justify-content:center;color:var(--mut);font:11px ui-monospace,Menlo,monospace;text-align:center;}
+  .chip{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border:1.5px solid var(--ink);border-radius:14px;font-size:12.5px;background:#fff;white-space:nowrap;}
+  .chip.on{background:var(--acc);color:#fff;border-color:var(--acc);}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--ink);}
+  .txt{height:9px;border-radius:5px;background:var(--faint);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border-radius:14px 6px 14px 6px/6px 14px 6px 14px;font-size:13.5px;background:var(--acc);color:#fff;border:2px solid var(--acc);}
+  .btn.ghost{background:#fff;color:var(--ink);border-color:var(--ink);}
+  .ico{width:26px;height:26px;border:1.5px solid var(--faint);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--mut);}
+  .prog{height:7px;border-radius:4px;background:var(--faint);overflow:hidden;}
+  .prog>i{display:block;height:100%;background:var(--acc);border-radius:4px;}
+  .rail{width:60px;flex:none;border-right:1.5px solid var(--faint);display:flex;flex-direction:column;align-items:center;gap:18px;padding:16px 0;}
+  .rail .r{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--mut);border:1.5px solid var(--faint);}
+  .rail .r.on{background:var(--acc);color:#fff;border-color:var(--acc);}
+  .lbl{font:10px ui-monospace,Menlo,monospace;color:var(--mut);letter-spacing:.3px;}
+  .fld{display:flex;flex-direction:column;gap:6px;}
+  .fld .in{height:34px;border-radius:10px 5px 12px 5px/5px 12px 5px 10px;border:1.5px solid var(--faint);background:#fff;display:flex;align-items:center;padding:0 11px;font-size:12.5px;color:var(--mut);justify-content:space-between;}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t3">
+  <div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">讓每部作品自己切換追蹤模式</span></div>
+  <div class="dv-opts">
+
+    <!-- 3a 模式切換器 -->
+    <div class="dv-opt" id="3a">
+      <div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>詳情頁裡的模式切換（推薦）· 每部各自設定</div>
+      <div class="wf sk" style="width:380px;padding:20px 22px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;"><div class="hand" style="font-size:16px;">作品標題</div><span class="lbl">追蹤方式</span></div>
+        <div style="display:flex;gap:0;border:1.5px solid var(--faint);border-radius:12px;overflow:hidden;margin-bottom:16px;">
+          <div class="hand" style="flex:1;text-align:center;padding:7px 0;background:var(--acc);color:#fff;font-size:12.5px;">勾格</div>
+          <div class="hand" style="flex:1;text-align:center;padding:7px 0;font-size:12.5px;color:var(--mut);border-left:1.5px solid var(--faint);">計數</div>
+          <div class="hand" style="flex:1;text-align:center;padding:7px 0;font-size:12.5px;color:var(--mut);border-left:1.5px solid var(--faint);">清單</div>
+          <div class="hand" style="flex:1;text-align:center;padding:7px 0;font-size:12.5px;color:var(--mut);border-left:1.5px solid var(--faint);">不追</div>
+        </div>
+        <div class="lbl" style="margin-bottom:8px;">↑ 選「勾格」時顯示：</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;">
+          <div class="chip on" style="justify-content:center;padding:0;height:30px;">✓1</div><div class="chip on" style="justify-content:center;padding:0;height:30px;">✓2</div><div class="chip on" style="justify-content:center;padding:0;height:30px;">✓3</div><div class="chip" style="justify-content:center;padding:0;height:30px;color:var(--mut);">4</div><div class="chip" style="justify-content:center;padding:0;height:30px;color:var(--mut);">5</div>
+        </div>
+        <div class="lbl" style="margin-top:12px;">切「計數」→ 換成 ＋/－ 數字；切「不追」→ 只留封面與連結</div>
+      </div>
+    </div>
+
+    <!-- 3b 2a+2b 同步混合 -->
+    <div class="dv-opt" id="3b">
+      <div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a><a class="dv-oid" href="#2a">2a</a>＋<a class="dv-oid" href="#2b">2b</a> 同步：勾格與計數連動</div>
+      <div class="wf sk" style="width:380px;padding:20px 22px;">
+        <div class="hand" style="font-size:16px;margin-bottom:14px;">作品標題</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+          <span class="ico" style="width:32px;height:32px;font-size:17px;">－</span>
+          <div style="text-align:center;"><div style="font-size:22px;line-height:1;" class="hand">6</div><span class="lbl">/ 10 話</span></div>
+          <span class="ico" style="width:32px;height:32px;font-size:17px;background:var(--acc);color:#fff;border-color:var(--acc);">＋</span>
+          <div class="prog" style="flex:1;"><i style="width:60%"></i></div>
+        </div>
+        <div class="lbl" style="margin:10px 0 8px;">按 ＋/－ 或直接點格子，兩邊即時同步：</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:7px;">
+          <div class="chip on" style="justify-content:center;padding:0;height:30px;">✓1</div><div class="chip on" style="justify-content:center;padding:0;height:30px;">✓2</div><div class="chip on" style="justify-content:center;padding:0;height:30px;">✓3</div><div class="chip on" style="justify-content:center;padding:0;height:30px;">✓4</div><div class="chip on" style="justify-content:center;padding:0;height:30px;">✓5</div>
+          <div class="chip on" style="justify-content:center;padding:0;height:30px;">✓6</div><div class="chip" style="justify-content:center;padding:0;height:30px;color:var(--mut);">7</div><div class="chip" style="justify-content:center;padding:0;height:30px;color:var(--mut);">8</div><div class="chip" style="justify-content:center;padding:0;height:30px;color:var(--mut);">9</div><div class="chip" style="justify-content:center;padding:0;height:30px;color:var(--mut);">10</div>
+        </div>
+        <div class="lbl" style="margin-top:12px;">按 ＋ 就自動勾下一格；想跳讀就直接點格子，計數跟著跳</div>
+      </div>
+    </div>
+
+    <!-- 3c 全域預設 -->
+    <div class="dv-opt" id="3c">
+      <div class="dv-olabel"><a class="dv-oid" href="#3c">3c</a>設定頁：全域預設追蹤模式</div>
+      <div class="wf sk" style="width:320px;padding:20px 22px;">
+        <div class="hand" style="font-size:16px;margin-bottom:14px;">追蹤偏好</div>
+        <div class="fld" style="margin-bottom:14px;"><span class="lbl">新增作品時預設用</span><div class="in">計數（＋/－） ▾</div></div>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div class="skln" style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;"><span style="font-size:12.5px;">話數 ≤ 30 自動用勾格</span><span class="chip on" style="width:34px;height:18px;padding:0;justify-content:flex-end;padding-right:3px;">●</span></div>
+          <div class="skln" style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;"><span style="font-size:12.5px;">追完自動填滿進度</span><span class="chip on" style="width:34px;height:18px;padding:0;justify-content:flex-end;padding-right:3px;">●</span></div>
+        </div>
+        <div class="lbl" style="margin-top:12px;">先給一個聰明預設，個別作品仍可在 <a class="dv-oid" href="#3a">3a</a> 覆寫</div>
+      </div>
+    </div>
+
+  </div>
+  <p class="dv-next">跟我說：「<a class="dv-oid" href="#3a">3a</a>＋<a class="dv-oid" href="#3c">3c</a> 一起做」 · 「<a class="dv-oid" href="#3b">3b</a> 的同步就是我要的」 · 「切換器改成圖示不要文字」 · 「選定方向，進高擬真」</p>
+</section>
+
+<section class="dv-turn" id="t2">
+  <div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">「閱讀進度」可以怎麼定義？ — 4 種做法</span></div>
+  <div class="dv-opts">
+
+    <!-- 2a 勾格法 -->
+    <div class="dv-opt" id="2a">
+      <div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>逐話打勾（你提的方式）· 記得最細</div>
+      <div class="wf sk" style="width:360px;padding:20px 22px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;"><div class="hand" style="font-size:16px;">作品標題</div><span class="lbl">共 10 話</span></div>
+        <div class="prog" style="margin-bottom:14px;"><i style="width:60%"></i></div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+          <div class="chip on" style="justify-content:center;padding:0;height:34px;">✓1</div>
+          <div class="chip on" style="justify-content:center;padding:0;height:34px;">✓2</div>
+          <div class="chip on" style="justify-content:center;padding:0;height:34px;">✓3</div>
+          <div class="chip on" style="justify-content:center;padding:0;height:34px;">✓4</div>
+          <div class="chip on" style="justify-content:center;padding:0;height:34px;">✓5</div>
+          <div class="chip on" style="justify-content:center;padding:0;height:34px;">✓6</div>
+          <div class="chip" style="justify-content:center;padding:0;height:34px;color:var(--mut);">7</div>
+          <div class="chip" style="justify-content:center;padding:0;height:34px;color:var(--mut);">8</div>
+          <div class="chip" style="justify-content:center;padding:0;height:34px;color:var(--mut);">9</div>
+          <div class="chip" style="justify-content:center;padding:0;height:34px;color:var(--mut);">10</div>
+        </div>
+        <div class="lbl" style="margin-top:12px;">點一格＝看完那話 · 可跳讀、回頭補 · 適合話數固定的完結作</div>
+      </div>
+    </div>
+
+    <!-- 2b 數字進度 -->
+    <div class="dv-opt" id="2b">
+      <div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>只記「目前第幾話」· 最省事</div>
+      <div class="wf sk" style="width:340px;padding:20px 22px;">
+        <div class="hand" style="font-size:16px;margin-bottom:14px;">作品標題</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <span class="ico" style="width:34px;height:34px;font-size:18px;">－</span>
+          <div style="text-align:center;"><div style="font-size:26px;line-height:1;" class="hand">82</div><span class="lbl">目前話數</span></div>
+          <span class="ico" style="width:34px;height:34px;font-size:18px;background:var(--acc);color:#fff;border-color:var(--acc);">＋</span>
+          <div style="flex:1;text-align:right;"><span class="lbl">共 137 話</span></div>
+        </div>
+        <div class="prog"><i style="width:60%"></i></div>
+        <div class="lbl" style="margin-top:12px;">看完一話按「＋」· 連載作總話數可留空 · 最適合長篇連載</div>
+      </div>
+    </div>
+
+    <!-- 2c 話數清單 -->
+    <div class="dv-opt" id="2c">
+      <div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>話數清單＋讀過標記 · 可記日期／備註</div>
+      <div class="wf sk" style="width:340px;padding:20px 22px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;"><div class="hand" style="font-size:16px;">作品標題</div><span class="lbl">6 / 10 已讀</span></div>
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <div class="skln" style="display:flex;gap:9px;align-items:center;padding:7px 10px;"><span class="chip on" style="width:16px;height:16px;padding:0;">✓</span><span style="font-size:12.5px;">第 6 話 · 標題</span><span class="lbl" style="margin-left:auto;">7/12</span></div>
+          <div class="skln" style="display:flex;gap:9px;align-items:center;padding:7px 10px;"><span class="chip on" style="width:16px;height:16px;padding:0;">✓</span><span style="font-size:12.5px;">第 5 話 · 標題</span><span class="lbl" style="margin-left:auto;">7/05</span></div>
+          <div class="skln" style="display:flex;gap:9px;align-items:center;padding:7px 10px;"><span style="width:16px;height:16px;border:1.5px solid var(--faint);border-radius:4px;"></span><span style="font-size:12.5px;color:var(--mut);">第 7 話 · 未讀</span></div>
+          <div class="skln" style="display:flex;gap:9px;align-items:center;padding:7px 10px;"><span style="width:16px;height:16px;border:1.5px solid var(--faint);border-radius:4px;"></span><span style="font-size:12.5px;color:var(--mut);">第 8 話 · 未讀</span></div>
+        </div>
+        <div class="lbl" style="margin-top:12px;">每話可記讀完日期 · 想寫短評也行 · 資料最豐富但輸入較多</div>
+      </div>
+    </div>
+
+    <!-- 2d 混合＋不追 -->
+    <div class="dv-opt" id="2d">
+      <div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>依狀態自動切換記法（建議）</div>
+      <div class="wf sk" style="width:340px;padding:20px 22px;">
+        <div style="display:flex;flex-direction:column;gap:11px;">
+          <div class="skln" style="padding:10px 12px;"><span class="lbl">尚未開始 / 有興趣</span><div style="font-size:12.5px;margin-top:4px;">不顯示進度，只有封面與連結</div></div>
+          <div class="skln" style="padding:10px 12px;border-color:var(--acc);"><span class="lbl" style="color:var(--acc)">進行中 / 等連載</span><div style="display:flex;align-items:center;gap:10px;margin-top:6px;"><span class="chip">第 82 話 ▾</span><div class="prog" style="flex:1;"><i style="width:60%"></i></div></div></div>
+          <div class="skln" style="padding:10px 12px;"><span class="lbl">已追完</span><div style="font-size:12.5px;margin-top:4px;">進度自動填滿 ✓ · 顯示完讀日</div></div>
+          <div class="skln" style="padding:10px 12px;"><span class="lbl">已棄坑 / 暫停中</span><div style="font-size:12.5px;margin-top:4px;">停在最後看的第 15 話（灰色）</div></div>
+        </div>
+        <div class="lbl" style="margin-top:12px;">同一套資料，不同狀態顯示不同細節，輸入負擔最低</div>
+      </div>
+    </div>
+
+  </div>
+  <p class="dv-next">回我一句就繼續：「用 <a class="dv-oid" href="#2b">2b</a>，但總話數可留空」 · 「<a class="dv-oid" href="#2a">2a</a> 的勾格放進詳情頁 <a class="dv-oid" href="#1d">1d</a>」 · 「照 <a class="dv-oid" href="#2d">2d</a> 做，其他都用它」</p>
+</section>
+
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">漫畫收藏網站 · 首批線稿探索</span></div>
+  <div class="dv-opts">
+
+    <!-- 1a 封面網格書櫃 -->
+    <div class="dv-opt" id="1a">
+      <div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>書櫃總覽 · 封面網格（貼近參考圖）</div>
+      <div class="wf sk" style="width:820px;padding:0;overflow:hidden;display:flex;">
+        <div class="rail">
+          <div class="r on">🔥</div>
+          <div class="r">📚</div>
+          <div class="r">⭐</div>
+          <div class="r">＋</div>
+          <div class="r">⚙</div>
+        </div>
+        <div style="flex:1;padding:20px 22px;">
+          <div class="skln" style="display:flex;align-items:center;gap:8px;padding:9px 14px;margin-bottom:16px;color:var(--mut);font-size:13px;">🔍 搜尋作品、作者或標籤…</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+            <span class="chip on">全部</span>
+            <span class="chip"><i class="dot" style="background:#3aa0e0"></i>進行中</span>
+            <span class="chip"><i class="dot" style="background:var(--acc)"></i>等連載</span>
+            <span class="chip"><i class="dot" style="background:#4caf7d"></i>已追完</span>
+            <span class="chip"><i class="dot" style="background:#c0392b"></i>已棄坑</span>
+            <span class="chip"><i class="dot" style="background:var(--mut)"></i>暫停中</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;">
+            <div class="hand" style="font-size:19px;">我的收藏</div>
+            <span class="lbl">共 42 本 · 更多 ›</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+            <!-- card ×8 -->
+            <div style="display:flex;flex-direction:column;gap:6px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:80%"></div><div class="txt" style="width:55%;height:7px;"></div><div class="prog"><i style="width:60%"></i></div><span class="lbl">第 82 / 137 話</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:70%"></div><div class="txt" style="width:50%;height:7px;"></div><div class="prog"><i style="width:100%;background:#4caf7d"></i></div><span class="lbl">已追完</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:85%"></div><div class="txt" style="width:45%;height:7px;"></div><div class="prog"><i style="width:30%"></i></div><span class="lbl">第 12 / 40 話</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:75%"></div><div class="txt" style="width:60%;height:7px;"></div><div class="prog"><i style="width:0%"></i></div><span class="lbl">尚未開始</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:65%"></div><div class="txt" style="width:50%;height:7px;"></div><div class="prog"><i style="width:88%;background:var(--acc)"></i></div><span class="lbl">等連載 · 第 210 話</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:80%"></div><div class="txt" style="width:55%;height:7px;"></div><div class="prog"><i style="width:45%"></i></div><span class="lbl">第 9 / 20 話</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:72%"></div><div class="txt" style="width:48%;height:7px;"></div><div class="prog"><i style="width:20%;background:var(--mut)"></i></div><span class="lbl">暫停中</span></div>
+            <div style="display:flex;flex-direction:column;gap:6px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:78%"></div><div class="txt" style="width:52%;height:7px;"></div><div class="prog"><i style="width:15%;background:#c0392b"></i></div><span class="lbl">已棄坑</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1b 狀態看板 -->
+    <div class="dv-opt" id="1b">
+      <div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>書櫃總覽 · 依狀態分欄看板（追進度用）</div>
+      <div class="wf sk" style="width:760px;padding:20px 22px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;">
+          <div class="hand" style="font-size:19px;">追蹤看板</div>
+          <div class="skln" style="padding:6px 12px;font-size:12px;color:var(--mut);">🔍 搜尋</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:13px;"><i class="dot" style="background:#3aa0e0"></i>進行中 <span class="lbl">6</span></div>
+            <div class="cov sk2" style="height:64px;font-size:10px;">封面 · 標題</div>
+            <div class="cov sk2" style="height:64px;font-size:10px;">封面 · 標題</div>
+            <div class="cov sk2" style="height:64px;font-size:10px;">封面 · 標題</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:13px;"><i class="dot" style="background:var(--acc)"></i>等連載 <span class="lbl">11</span></div>
+            <div class="cov sk2" style="height:64px;font-size:10px;">封面 · 標題</div>
+            <div class="cov sk2" style="height:64px;font-size:10px;">封面 · 標題</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:13px;"><i class="dot" style="background:var(--mut)"></i>暫停中 <span class="lbl">3</span></div>
+            <div class="cov sk2" style="height:64px;font-size:10px;">封面 · 標題</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:13px;"><i class="dot" style="background:#4caf7d"></i>已追完 <span class="lbl">18</span></div>
+            <div class="cov sk2" style="height:64px;font-size:10px;">封面 · 標題</div>
+            <div class="cov sk2" style="height:64px;font-size:10px;">封面 · 標題</div>
+          </div>
+        </div>
+        <div class="lbl" style="margin-top:14px;">↔ 拖曳卡片即可切換狀態 · 已棄坑收於底部摺疊區</div>
+      </div>
+    </div>
+
+    <!-- 1c 雙分頁 -->
+    <div class="dv-opt" id="1c">
+      <div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>書櫃總覽 · 「收藏 / 有興趣」雙分頁</div>
+      <div class="wf sk" style="width:560px;padding:20px 22px;">
+        <div style="display:flex;gap:0;border-bottom:1.5px solid var(--faint);margin-bottom:16px;">
+          <div style="padding:8px 16px;border-bottom:3px solid var(--acc);font-size:14px;">我的收藏 <span class="lbl">42</span></div>
+          <div style="padding:8px 16px;color:var(--mut);font-size:14px;">有興趣清單 <span class="lbl">17</span></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+          <span class="chip on">全部狀態</span>
+          <span class="chip">依作者</span>
+          <span class="chip">依更新</span>
+          <span class="chip">⇅ 排序</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+          <div style="display:flex;flex-direction:column;gap:5px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:80%"></div><span class="lbl"><i class="dot" style="background:#3aa0e0"></i> 進行中</span></div>
+          <div style="display:flex;flex-direction:column;gap:5px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:70%"></div><span class="lbl"><i class="dot" style="background:var(--acc)"></i> 等連載</span></div>
+          <div style="display:flex;flex-direction:column;gap:5px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:85%"></div><span class="lbl"><i class="dot" style="background:#4caf7d"></i> 已追完</span></div>
+          <div style="display:flex;flex-direction:column;gap:5px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:65%"></div><span class="lbl"><i class="dot"></i> 尚未開始</span></div>
+          <div style="display:flex;flex-direction:column;gap:5px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:78%"></div><span class="lbl"><i class="dot" style="background:var(--mut)"></i> 暫停中</span></div>
+          <div style="display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center;" class="skln"><div style="font-size:24px;color:var(--mut)">＋</div><span class="lbl">新增作品</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1d 詳情 -->
+    <div class="dv-opt" id="1d">
+      <div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>單本漫畫詳情</div>
+      <div class="wf sk" style="width:600px;padding:24px 26px;">
+        <div class="lbl" style="margin-bottom:14px;">‹ 返回書櫃</div>
+        <div style="display:flex;gap:20px;">
+          <div class="cov sk2" style="width:150px;height:200px;flex:none;">封面</div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:10px;">
+            <div class="hand" style="font-size:22px;">作品標題</div>
+            <div class="txt" style="width:45%"></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
+              <span class="lbl">狀態</span>
+              <span class="chip on"><i class="dot" style="background:#fff"></i>進行中 ▾</span>
+            </div>
+            <div style="margin-top:4px;">
+              <div class="lbl" style="margin-bottom:6px;">閱讀進度 · 勾格與計數連動</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span class="ico" style="width:30px;height:30px;font-size:16px;">－</span>
+                <div style="text-align:center;"><div style="font-size:20px;line-height:1;" class="hand">6</div><span class="lbl">/ 10 話</span></div>
+                <span class="ico" style="width:30px;height:30px;font-size:16px;background:var(--acc);color:#fff;border-color:var(--acc);">＋</span>
+                <div class="prog" style="flex:1;"><i style="width:60%"></i></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:6px;">
+              <span class="btn">▶ 繼續閱讀</span>
+              <span class="btn ghost">🔗 官方連結</span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="chip" style="font-size:11.5px;">＃少年</span>
+          <span class="chip" style="font-size:11.5px;">＃奇幻</span>
+          <span class="chip" style="font-size:11.5px;">＃長篇</span>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="lbl" style="margin-bottom:8px;">按 ＋/－ 或直接點格子，兩邊即時同步：</div>
+          <div style="display:grid;grid-template-columns:repeat(10,1fr);gap:7px;">
+            <div class="chip on" style="justify-content:center;padding:0;height:32px;">✓1</div><div class="chip on" style="justify-content:center;padding:0;height:32px;">✓2</div><div class="chip on" style="justify-content:center;padding:0;height:32px;">✓3</div><div class="chip on" style="justify-content:center;padding:0;height:32px;">✓4</div><div class="chip on" style="justify-content:center;padding:0;height:32px;">✓5</div><div class="chip on" style="justify-content:center;padding:0;height:32px;">✓6</div><div class="chip" style="justify-content:center;padding:0;height:32px;color:var(--mut);">7</div><div class="chip" style="justify-content:center;padding:0;height:32px;color:var(--mut);">8</div><div class="chip" style="justify-content:center;padding:0;height:32px;color:var(--mut);">9</div><div class="chip" style="justify-content:center;padding:0;height:32px;color:var(--mut);">10</div>
+          </div>
+        </div>
+        <div class="skln" style="margin-top:16px;padding:12px 14px;">
+          <div class="lbl" style="margin-bottom:8px;">我的筆記 / 追蹤備註</div>
+          <div class="txt" style="width:100%;margin-bottom:6px;"></div>
+          <div class="txt" style="width:90%;margin-bottom:6px;"></div>
+          <div class="txt" style="width:60%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1e 新增/編輯 -->
+    <div class="dv-opt" id="1e">
+      <div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>新增 / 編輯收藏（表單）</div>
+      <div class="wf sk" style="width:440px;padding:24px 26px;">
+        <div class="hand" style="font-size:19px;margin-bottom:18px;">新增作品</div>
+        <div style="display:flex;gap:16px;margin-bottom:16px;">
+          <div class="cov sk2" style="width:96px;height:128px;flex:none;font-size:10px;">＋ 上傳封面</div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:12px;">
+            <div class="fld"><span class="lbl">作品標題</span><div class="in">輸入標題…</div></div>
+            <div class="fld"><span class="lbl">作者</span><div class="in">輸入作者…</div></div>
+          </div>
+        </div>
+        <div class="fld" style="margin-bottom:12px;"><span class="lbl">作品網站連結</span><div class="in">https:// …&nbsp;&nbsp;🔗</div></div>
+        <div style="display:flex;gap:12px;margin-bottom:12px;">
+          <div class="fld" style="flex:1;"><span class="lbl">狀態</span><div class="in">進行中 ▾</div></div>
+          <div class="fld" style="flex:1;"><span class="lbl">目前進度（話 / 集）</span><div class="in">82</div></div>
+        </div>
+        <div class="fld" style="margin-bottom:12px;">
+          <span class="lbl">分類</span>
+          <div style="display:flex;gap:8px;"><span class="chip on">我的收藏</span><span class="chip">有興趣清單</span></div>
+        </div>
+        <div class="fld" style="margin-bottom:8px;">
+          <span class="lbl">狀態選項</span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <span class="chip" style="font-size:11px;">尚未開始</span><span class="chip on" style="font-size:11px;">進行中</span><span class="chip" style="font-size:11px;">暫停中</span><span class="chip" style="font-size:11px;">已棄坑</span><span class="chip" style="font-size:11px;">已追完</span><span class="chip" style="font-size:11px;">等連載</span>
+          </div>
+        </div>
+        <div class="fld" style="margin:12px 0 18px;"><span class="lbl">標籤 / 備註</span><div class="in" style="height:52px;align-items:flex-start;padding-top:8px;">＃標籤…</div></div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;"><span class="btn ghost">取消</span><span class="btn">儲存</span></div>
+      </div>
+    </div>
+
+    <!-- 1f 搜尋篩選 -->
+    <div class="dv-opt" id="1f">
+      <div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>搜尋與篩選</div>
+      <div class="wf sk" style="width:560px;padding:22px 24px;">
+        <div class="skln" style="display:flex;align-items:center;gap:8px;padding:11px 15px;margin-bottom:16px;color:var(--mut);font-size:14px;">🔍 搜尋作品、作者或標籤…</div>
+        <div style="display:flex;gap:18px;">
+          <div style="width:150px;flex:none;display:flex;flex-direction:column;gap:14px;">
+            <div><div class="lbl" style="margin-bottom:8px;">狀態（可複選）</div>
+              <div style="display:flex;flex-direction:column;gap:7px;font-size:12.5px;">
+                <label style="display:flex;gap:7px;align-items:center;"><span class="chip on" style="width:16px;height:16px;padding:0;">✓</span>進行中</label>
+                <label style="display:flex;gap:7px;align-items:center;"><span class="chip on" style="width:16px;height:16px;padding:0;">✓</span>等連載</label>
+                <label style="display:flex;gap:7px;align-items:center;"><span style="width:16px;height:16px;border:1.5px solid var(--faint);border-radius:4px;"></span>已追完</label>
+                <label style="display:flex;gap:7px;align-items:center;"><span style="width:16px;height:16px;border:1.5px solid var(--faint);border-radius:4px;"></span>暫停中</label>
+              </div>
+            </div>
+            <div><div class="lbl" style="margin-bottom:8px;">排序</div><div class="in skln" style="height:30px;font-size:12px;">最近更新 ▾</div></div>
+            <div><div class="lbl" style="margin-bottom:8px;">分類</div><div style="display:flex;flex-direction:column;gap:6px;"><span class="chip on" style="font-size:11.5px;">收藏</span><span class="chip" style="font-size:11.5px;">有興趣</span></div></div>
+          </div>
+          <div style="flex:1;">
+            <div class="lbl" style="margin-bottom:10px;">找到 14 筆結果</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="skln" style="display:flex;gap:10px;padding:8px;align-items:center;"><div class="cov" style="width:38px;height:50px;border-radius:4px;">封</div><div style="flex:1;"><div class="txt" style="width:60%;margin-bottom:6px;"></div><span class="lbl"><i class="dot" style="background:#3aa0e0"></i> 進行中 · 第 82 話</span></div></div>
+              <div class="skln" style="display:flex;gap:10px;padding:8px;align-items:center;"><div class="cov" style="width:38px;height:50px;border-radius:4px;">封</div><div style="flex:1;"><div class="txt" style="width:50%;margin-bottom:6px;"></div><span class="lbl"><i class="dot" style="background:var(--acc)"></i> 等連載</span></div></div>
+              <div class="skln" style="display:flex;gap:10px;padding:8px;align-items:center;"><div class="cov" style="width:38px;height:50px;border-radius:4px;">封</div><div style="flex:1;"><div class="txt" style="width:70%;margin-bottom:6px;"></div><span class="lbl"><i class="dot" style="background:#3aa0e0"></i> 進行中 · 第 12 話</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1g 手機版 -->
+    <div class="dv-opt" id="1g">
+      <div class="dv-olabel"><a class="dv-oid" href="#1g">1g</a>手機版書櫃</div>
+      <div class="wf sk" style="width:280px;padding:16px 14px 20px;border-radius:34px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <div class="hand" style="font-size:17px;">我的書櫃</div>
+          <span class="ico">🔍</span>
+        </div>
+        <div style="display:flex;gap:6px;overflow:hidden;margin-bottom:14px;">
+          <span class="chip on" style="font-size:11px;">全部</span>
+          <span class="chip" style="font-size:11px;">進行中</span>
+          <span class="chip" style="font-size:11px;">等連載</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:5px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:80%"></div><div class="prog"><i style="width:60%"></i></div></div>
+          <div style="display:flex;flex-direction:column;gap:5px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:70%"></div><div class="prog"><i style="width:100%;background:#4caf7d"></i></div></div>
+          <div style="display:flex;flex-direction:column;gap:5px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:75%"></div><div class="prog"><i style="width:30%"></i></div></div>
+          <div style="display:flex;flex-direction:column;gap:5px;"><div class="cov sk2" style="aspect-ratio:3/4;">封面</div><div class="txt" style="width:65%"></div><div class="prog"><i style="width:88%;background:var(--acc)"></i></div></div>
+        </div>
+        <div class="skln" style="display:flex;justify-content:space-around;padding:9px 0;margin-top:16px;font-size:16px;color:var(--mut);">
+          <span>📚</span><span style="color:var(--acc)">⭐</span><span>🔍</span><span style="color:#fff;background:var(--acc);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:-4px;">＋</span><span>⚙</span>
+        </div>
+        <div class="lbl" style="text-align:center;margin-top:8px;">底部：書櫃 · 有興趣 · 搜尋 · 新增 · 設定</div>
+      </div>
+    </div>
+
+  </div>
+  <p class="dv-next">下一步可以說：「把 <a class="dv-oid" href="#1a">1a</a> 和 <a class="dv-oid" href="#1b">1b</a> 的看板結合」 · 「<a class="dv-oid" href="#1c">1c</a> 加上有興趣清單的專屬版面」 · 「詳情頁 <a class="dv-oid" href="#1d">1d</a> 想看不同排版」 · 「進入高擬真，選定 <a class="dv-oid" href="#1a">1a</a> 方向」</p>
+</section>
+</x-dc>
+</body>
+</html>

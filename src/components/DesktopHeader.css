@@ -1,0 +1,56 @@
+.dheader {
+  height: 74px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--border-1);
+  background: rgba(250, 246, 239, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.dheader__search {
+  flex: 1;
+  max-width: 540px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 16px;
+  background: var(--bg-field);
+  border: 1px solid var(--border-1);
+  border-radius: 13px;
+  color: var(--text-1);
+}
+
+.dheader__search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.dheader__add {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 42px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 13px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(217, 84, 31, 0.3);
+  transition: 0.15s;
+  white-space: nowrap;
+}
+.dheader__add:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}

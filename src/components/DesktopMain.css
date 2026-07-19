@@ -1,0 +1,107 @@
+.dmain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dmain__scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 30px 40px 64px;
+}
+
+.dmain__titlerow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.dmain__backbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 8px;
+  padding: 6px 12px 6px 9px;
+  border: 1px solid var(--border-1);
+  border-radius: 22px;
+  background: var(--bg-field);
+  color: var(--text-2);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.dmain__backbtn:hover {
+  background: #f0ebe1;
+}
+
+.dmain__kicker {
+  font-family: 'Newsreader', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-3);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.dmain__title {
+  margin: 0;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 900;
+  font-size: 34px;
+  letter-spacing: 0.5px;
+}
+
+.dmain__count {
+  font-size: 13px;
+  color: var(--text-1);
+  padding-bottom: 6px;
+}
+
+.dmain__catadd {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-bottom: 4px;
+}
+
+.dmain__catinput {
+  height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--brand);
+  border-radius: 11px;
+  background: #fff;
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+}
+
+.dmain__catsave {
+  height: 38px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 11px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.dmain__cattoggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid var(--border-1);
+  border-radius: 11px;
+  background: var(--bg-field);
+  color: var(--text-2);
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dmain__cattoggle:hover {
+  background: #f0ebe1;
+}

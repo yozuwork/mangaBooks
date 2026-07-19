@@ -1,0 +1,19 @@
+.cgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  gap: 26px 20px;
+}
+
+.cgrid__empty {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--text-1);
+  font-size: 13.5px;
+}
+
+@media (max-width: 860px) {
+  .cgrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px 16px;
+  }
+}

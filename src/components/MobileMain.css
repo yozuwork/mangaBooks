@@ -1,0 +1,60 @@
+.mmain {
+  position: relative;
+  height: 100vh;
+  min-height: 640px;
+  background: var(--bg-page);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mmain__scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2px 20px 96px;
+}
+
+.mmain__catrow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.mmain__catinput {
+  flex: 1;
+  height: 42px;
+  padding: 0 13px;
+  border: 1px solid var(--brand);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+}
+
+.mmain__catsave {
+  height: 42px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mmain__cattoggle {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 42px;
+  border: 1px dashed var(--border-dash);
+  border-radius: 12px;
+  background: var(--bg-field);
+  color: var(--text-2);
+  font-size: 14px;
+  cursor: pointer;
+}

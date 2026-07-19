@@ -1,0 +1,244 @@
+.form__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(28, 24, 19, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: flex-end;
+  animation: backIn 0.25s both;
+}
+
+.form__panel--drawer {
+  width: min(468px, 92vw);
+  height: 100%;
+  background: var(--bg-panel);
+  box-shadow: -16px 0 40px rgba(28, 24, 19, 0.28);
+  overflow: auto;
+  animation: drawerIn 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.form__panel--sheet {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-panel);
+  overflow: auto;
+  animation: sheetUp 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.form__body {
+  padding: 22px 28px 40px;
+}
+.form__panel--sheet .form__body {
+  padding: 56px 20px 40px;
+}
+
+.form__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+.form__panel--sheet .form__head {
+  margin-bottom: 20px;
+}
+
+.form__heading {
+  margin: 0;
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 900;
+  font-size: 23px;
+}
+.form__panel--sheet .form__heading {
+  font-size: 22px;
+}
+
+.form__closebtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  border: 1px solid var(--border-1);
+  background: #fff;
+  color: var(--text-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form__closebtn:hover {
+  background: #f0ebe1;
+}
+
+.form__coverRow {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.form__panel--sheet .form__coverRow {
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.form__coverPreview {
+  width: 104px;
+  height: 140px;
+  flex: none;
+  border-radius: 11px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(38, 34, 29, 0.2);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 10px;
+}
+.form__panel--sheet .form__coverPreview {
+  width: 92px;
+  height: 124px;
+  border-radius: 12px;
+  padding: 9px;
+}
+
+.form__coverHint {
+  font-size: 11px;
+  color: rgba(251, 246, 236, 0.85);
+  text-align: center;
+}
+
+.form__swatchWrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.form__label {
+  font-size: 12px;
+  color: var(--text-3);
+  letter-spacing: 0.5px;
+  margin-bottom: 7px;
+  display: block;
+}
+
+.form__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.form__swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.form__swatchNote {
+  font-size: 11.5px;
+  color: #b6ac99;
+  margin-top: 12px;
+}
+
+.form__input {
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--border-1);
+  border-radius: 12px;
+  background: #fff;
+  padding: 0 14px;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+.form__input:focus {
+  border-color: var(--brand);
+}
+
+.form__chiprow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.form__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex: none;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: 0.15s;
+  background: #fff;
+  color: var(--text-2);
+  border: 1.5px solid var(--border-2);
+}
+
+.form__chip--dark {
+  background: var(--ink);
+  color: #fff;
+  border: 1.5px solid var(--ink);
+}
+
+.form__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.form__numRow {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.form__numCol {
+  flex: 1;
+}
+.form__numCol .form__input {
+  margin-bottom: 0;
+}
+
+.form__tagWrap {
+  margin-bottom: 26px;
+}
+
+.form__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.form__cancel {
+  flex: none;
+  height: 44px;
+  padding: 0 20px;
+  border: 1px solid var(--border-1);
+  border-radius: 13px;
+  background: #fff;
+  color: var(--text-2);
+  font-size: 14px;
+  cursor: pointer;
+}
+.form__cancel:hover {
+  background: #f0ebe1;
+}
+
+.form__save {
+  flex: 1;
+  height: 44px;
+  border: none;
+  border-radius: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--brand);
+  color: #fff;
+}
+
+.form__save--disabled {
+  background: var(--track);
+  color: var(--text-3);
+  cursor: not-allowed;
+}

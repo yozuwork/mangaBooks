@@ -1,0 +1,140 @@
+:root {
+  --bg-page: #f4efe6;
+  --bg-rail: #ece4d5;
+  --bg-white: #fff;
+  --bg-field: #fbf8f2;
+  --bg-panel: #faf6ef;
+  --brand: #d9541f;
+  --brand-hover: #b23f13;
+  --ink: #26221d;
+  --text-1: #8a8272;
+  --text-2: #6b6459;
+  --text-3: #a89a86;
+  --text-4: #9a8f7d;
+  --border-1: #e2d9c8;
+  --border-2: #e6ddcd;
+  --border-3: #ece3d2;
+  --border-dash: #d9cfba;
+  --track: #e4dccc;
+  --track-2: #eee5d5;
+  --tag-bg: #efe8db;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--ink);
+  font-family: 'Noto Sans TC', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: var(--brand);
+}
+a:hover {
+  color: var(--brand-hover);
+}
+
+button {
+  font-family: inherit;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+.ms {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ddd2bf;
+  border-radius: 7px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #cdc1ab;
+}
+
+.appscroll::-webkit-scrollbar {
+  display: none;
+}
+.appscroll {
+  scrollbar-width: none;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes backIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes drawerIn {
+  from {
+    transform: translateX(34px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes sheetUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.desktop-only {
+  display: flex;
+}
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: flex !important;
+  }
+}
